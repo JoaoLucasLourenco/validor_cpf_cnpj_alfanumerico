@@ -1,4 +1,4 @@
-class ValidacaoDocumento {
+export class ValidacaoDocumento {
   static calcularDigitosCPF(cpf: string): string {
     const limpo = this.removeMascara(cpf);
 
@@ -20,7 +20,19 @@ class ValidacaoDocumento {
   }
   static validarCPF(cpf: string): boolean {
     const limpo = this.removeMascara(cpf);
-    const listaCpfInvalidos: string[] = ["12345678909"];
+    const listaCpfInvalidos: string[] = [
+      "12345678909",
+      "00000000000",
+      "11111111111",
+      "22222222222",
+      "33333333333",
+      "44444444444",
+      "55555555555",
+      "66666666666",
+      "77777777777",
+      "88888888888",
+      "99999999999",
+    ];
     if (limpo.length !== 11 || listaCpfInvalidos.includes(limpo)) return false;
 
     const base = limpo.slice(0, 9);
