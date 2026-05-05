@@ -4,34 +4,60 @@ import { ValidacaoDocumento } from "@/lib/validacao";
 export default function CpfCnpjForm() {
   const [cpf, setCpf] = useState("");
   const [cnpj, setCnpj] = useState("");
-  const [resultadoCpf, setResultadoCpf] = useState<boolean | null>(null);
-  const [resultadoCnpj, setResultadoCnpj] = useState<boolean | null>(null);
+  const [resultadoValidacaoCpf, setResultadoValidacaoCpf] = useState<
+    boolean | null
+  >(null);
+  const [resultadoValidacaoCnpj, setResultadoValidacaoCnpj] = useState<
+    boolean | null
+  >(null);
+  const [cpfCalculoDigitos, setCpfCalculoDigitos] = useState("");
+  const [cnpjCalculoDigitos, setCnpjCalculoDigitos] = useState("");
+  const [resultadoCalculoDigitosCpf, setResultadoCalculoDigitosCpf] =
+    useState("");
+  const [resultadoCalculoDigitosCnpj, setResultadoCalculoDigitosCnpj] =
+    useState("");
 
   const handleValidarCPF = () => {
     const valido = ValidacaoDocumento.validarCPF(cpf);
-    setResultadoCpf(valido);
+    setResultadoValidacaoCpf(valido);
   };
   const handleValidarCnpj = () => {
     const valido = ValidacaoDocumento.validarCNPJ(cnpj);
-    setResultadoCnpj(valido);
+    setResultadoValidacaoCnpj(valido);
+  };
+  const handleCalculaDigitosCNPJ = () => {
+    const result = ValidacaoDocumento.calcularDigitosCNPJ(cnpjCalculoDigitos);
+    setResultadoCalculoDigitosCnpj(result);
+  };
+  const handleCalculaDigitosCPF = () => {
+    const result = ValidacaoDocumento.calcularDigitosCPF(cpfCalculoDigitos);
+    setResultadoCalculoDigitosCpf(result);
   };
 
   return (
     <>
-      <div>
-        <input
-          maxLength={11}
-          value={cpf}
-          onChange={(e) => setCpf(e.target.value)}
-        />
+      <div className="gap-2">
+        <input value={cpf} onChange={(e) => setCpf(e.target.value)} />
         <button onClick={handleValidarCPF}>Validar CPF</button>
         <label>
-          {resultadoCpf !== null && (
-            <p>{resultadoCpf ? "CPF Válido ✓" : "CPF Inválido ✗"}</p>
+          {resultadoValidacaoCpf !== null && (
+            <p>{resultadoValidacaoCpf ? "CPF Válido ✓" : "CPF Inválido ✗"}</p>
+          )}
+        </label>
+        <input
+          value={cpfCalculoDigitos}
+          onChange={(e) => setCpfCalculoDigitos(e.target.value)}
+        />
+        <button onClick={handleCalculaDigitosCPF}>
+          Descobre dígitos verificadores CPF
+        </button>
+        <label>
+          {resultadoCalculoDigitosCpf !== "" && (
+            <p>{resultadoCalculoDigitosCpf}</p>
           )}
         </label>
       </div>
-      <div>
+      <div className="">
         <input
           maxLength={14}
           value={cnpj}
@@ -39,8 +65,22 @@ export default function CpfCnpjForm() {
         />
         <button onClick={handleValidarCnpj}>Validar CNPJ</button>
         <label>
-          {resultadoCnpj !== null && (
-            <p>{resultadoCnpj ? "CNPJ Válido ✓" : "CNPJ Inválido ✗"}</p>
+          {resultadoValidacaoCnpj !== null && (
+            <p>
+              {resultadoValidacaoCnpj ? "CNPJ Válido ✓" : "CNPJ Inválido ✗"}
+            </p>
+          )}
+        </label>
+        <input
+          value={cpfCalculoDigitos}
+          onChange={(e) => setCnpjCalculoDigitos(e.target.value)}
+        />
+        <button onClick={handleCalculaDigitosCNPJ}>
+          Descobre dígitos verificadores CNPJ
+        </button>
+        <label>
+          {resultadoCalculoDigitosCnpj !== "" && (
+            <p>{resultadoCalculoDigitosCnpj}</p>
           )}
         </label>
       </div>
